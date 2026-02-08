@@ -1,4 +1,4 @@
-# PowerShell Autounattend.xml Generator
+# Anvil: PowerShell Autounattend.xml Generator
 
 A high-performance, 12-stage orchestration pipeline designed to generate advanced, self-extracting `autounattend.xml` files for Windows deployment. This tool automates the bundling of multiple PowerShell projects, configuration scripts, and binary assets into a single, portable deployment file.
 
@@ -31,20 +31,20 @@ graph TD
 
 ## 📂 Project Structure
 
-The generator scans a `BuildRoot` for project folders. Each folder (excluding `Shared`) must contain a `.psd1` manifest matching the folder name exactly.
+The generator scans a `BuildRoot` for project folders. Each folder (excluding `Shared` and `.git`) must contain a `Unattend.psd1` manifest.
 
 ```text
 Build/
 ├── Shared/             <-- Automatically ignored (use for common drivers/apps)
 ├── ProjectAlpha/
-│   ├── ProjectAlpha.psd1  <-- Manifest
+│   ├── Unattend.psd1  <-- Manifest
 │   └── Setup.ps1
 └── ProjectBeta/
-    ├── ProjectBeta.psd1
+    ├── Unattend.psd1
     └── Apps.exe
 ```
 
-### Project Manifest (`.psd1`)
+### Project Manifest (`Unattend.psd1`)
 The manifest defines the execution lifecycle for your project assets.
 ```powershell
 @{
@@ -83,7 +83,7 @@ The manifest defines the execution lifecycle for your project assets.
 Execute the entry point with your desired environment paths:
 
 ```powershell
-.\Main.ps1 -BuildRoot "C:\MyBuild" -OutputFolder "C:\Export"
+.\Anvil.ps1 -BuildRoot "C:\MyBuild" -OutputFolder "C:\Export"
 ```
 
 ### Parameters
@@ -92,7 +92,7 @@ Execute the entry point with your desired environment paths:
 | :--- | :--- | :--- |
 | `-BuildRoot` | Path to your source projects folder. | `C:\Build` |
 | `-OutputFolder` | Destination for the generated `autounattend.xml`. | `C:\Out` |
-| `-TemplatePath` | Path to the base XML template. | `.\Template.xml` |
+| `-TemplatePath` | Path to the base XML template. | `.\autounattend.Template.xml` |
 | `-WorkspacePath` | Destination path on the target OS. | `C:\Windows\Setup\Scripts` |
 
 ## ❓ Troubleshooting & FAQ
