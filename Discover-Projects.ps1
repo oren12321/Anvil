@@ -53,8 +53,10 @@ function Discover-Projects {
 
     $projects = @()
 
+    $allFolders = @(Get-Item -Path $BuildRoot) + @(Get-ChildItem -Path $BuildRoot -Directory -Recurse)
+
     Write-Information "[DEBUG] Scanning subdirectories under '$BuildRoot'"
-    Get-ChildItem -Path $BuildRoot -Directory -Recurse | Where-Object { 
+    $allFolders | Where-Object { 
         $_.FullName -notlike "*\Shared\*" -and
         $_.FullName -notlike "*\.git\*"
     } | ForEach-Object {
