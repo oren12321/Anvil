@@ -179,7 +179,7 @@ Expand-Archive -Path "C:\Windows\Setup\Scripts\Build.zip" -DestinationPath $work
 & {
 New-Item -Path "HKLM:\Software\Microsoft\Active Setup\Installed Components\Autounattend" -Force
 Set-ItemProperty -Path "HKLM:\Software\Microsoft\Active Setup\Installed Components\Autounattend" -Name Version -Value "1,0,0,0" -Type String
-Set-ItemProperty -Path "HKLM:\Software\Microsoft\Active Setup\Installed Components\Autounattend" -Name StubPath -Value 'powershell.exe -ExecutionPolicy Bypass -File "{{WORKSPACE}}\ActiveSetup.ps1"' -Type String
+Set-ItemProperty -Path "HKLM:\Software\Microsoft\Active Setup\Installed Components\Autounattend" -Name StubPath -Value 'cmd.exe /c start "Active Setup running - Please wait for setup to finish..." powershell.exe -NoProfile -ExecutionPolicy Bypass -File "{{WORKSPACE}}\ActiveSetup.ps1"' -Type String
 Set-ItemProperty -Path "HKLM:\Software\Microsoft\Active Setup\Installed Components\Autounattend" -Name Locale -Value "*" -Type String
 Set-ItemProperty -Path "HKLM:\Software\Microsoft\Active Setup\Installed Components\Autounattend" -Name IsInstalled -Value 1 -Type DWord
 } *>> "C:\Windows\Setup\Scripts\ActiveSetup.Config.log"
